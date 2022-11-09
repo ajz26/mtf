@@ -23,7 +23,7 @@ class AuthenticatedSessionController extends Controller
 
         return response()->json([
             'token' => $user->createToken($request->userAgent() ?? 'auth')->plainTextToken,
-            'message' => __("User authenticated successfully")
+            'message' => __("Employee authenticated successfully")
         ]);
     }
 
