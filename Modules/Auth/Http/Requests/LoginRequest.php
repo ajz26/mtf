@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace Modules\Auth\Http\Requests;
 
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
@@ -34,6 +34,10 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    protected function get_guard(){
+        return (request('type','user') == 'employee') ? 'employees' : 'users';
+    }
+
     /**
      * Attempt to authenticate the request's credentials.
      *
@@ -45,7 +49,10 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        $guard = $this->get_guard();
+
+
+        if (!Auth::guard($guard)->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

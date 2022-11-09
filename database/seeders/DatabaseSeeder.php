@@ -14,11 +14,5 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \Modules\Employee\Entities\Employee::factory(10)->create();
-
-        // \Modules\Employee\Entities\Employee::factory()->create([
-        //     'name' => 'Test Employee',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }

@@ -1,21 +1,21 @@
 <?php
 
-namespace Modules\Employee\Providers;
+namespace Modules\Auth\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class EmployeeServiceProvider extends ServiceProvider
+class AuthServiceProvider extends ServiceProvider
 {
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'Employee';
+    protected $moduleName = 'Auth';
 
     /**
      * @var string $moduleNameLower
      */
-    protected $moduleNameLower = 'employee';
+    protected $moduleNameLower = 'auth';
 
     /**
      * Boot the application events.
@@ -37,6 +37,7 @@ class EmployeeServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
     }
 
+
     /**
      * Get the services provided by the provider.
      *
@@ -46,4 +47,5 @@ class EmployeeServiceProvider extends ServiceProvider
     {
         return [];
     }
+
 }

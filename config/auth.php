@@ -38,7 +38,15 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'employees' => [
+            'driver' => 'session',
             'provider' => 'employees',
+        ],
+        'users' => [
+            'driver' => 'session',
+            'provider' => 'users',
         ],
     ],
 
@@ -65,6 +73,11 @@ return [
             'model' => Modules\Employee\Entities\Employee::class,
         ],
 
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => Modules\User\Entities\User::class,
+        ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -87,6 +100,12 @@ return [
     */
 
     'passwords' => [
+        'employees' => [
+            'provider' => 'employees',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',

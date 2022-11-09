@@ -1,17 +1,36 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Modules\Auth\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Modules\Employee\Entities\Employee;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Modules\User\Entities\User;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+use Illuminate\Auth\Events\Registered;
+use Modules\Employee\Entities\Employee;
 
-class RegisteredUserController extends Controller
+class RegisteredEmployeeController extends Controller
 {
+
+
+    protected $EmployeeModel = Employee::class;
+    protected $UserModel = User::class;
+    
+
+    protected function get_model(){
+
+        $type  = request('type','user');
+
+        if($type == 'employee'){
+            return $this->EmployeeModel;
+        }
+
+        return $this->UserModel;
+
+    }
+    
     /**
      * Handle an incoming registration request.
      *
@@ -22,13 +41,16 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+
+        $model = $this->get_model();
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.Employee::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.$model],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = Employee::create([
+        $user = $model::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -36,7 +58,7 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        
 
         return response()->noContent();
     }

@@ -1,26 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Modules\Auth\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Modules\Auth\Http\Requests\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
      * Handle an incoming authentication request.
      *
-     * @param  \App\Http\Requests\Auth\LoginRequest  $request
+     * @param  LoginRequest  $request
      * @return \Illuminate\Http\Response
      */
+
+    protected function get_guard(){
+        return (request('type','user') == 'employee') ? 'employees' : 'users';
+    }
     public function store(LoginRequest $request)
     {
         $request->authenticate();
 
-        $user = $request->user();
 
+        $user = Auth::guard($this->get_guard())->user();
+        
         return response()->json([
             'token' => $user->createToken($request->userAgent() ?? 'auth')->plainTextToken,
             'message' => __("Employee authenticated successfully")
