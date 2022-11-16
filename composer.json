@@ -12,6 +12,8 @@
         "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.7",
         "nwidart/laravel-modules": "^9.0",
+        "spatie/crypto": "^2.0",
+        "spatie/laravel-model-states": "^2.4",
         "wildside/userstamps": "^2.2"
     },
     "require-dev": {

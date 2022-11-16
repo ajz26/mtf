@@ -13,32 +13,22 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cards', function (Blueprint $table) {
-            
+        Schema::create('rooms', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('title')->nullable();
-            $table->longText('content');
+            $table->boolean('private')->default(false);
+            $table->integer('max_users')->nullable();
+            $table->integer('max_attempts')->default(25);
             $table->string('category')->nullable();
-            
-            $table->enum('response_type',[
-               'IMAGE',
-               'VIDEO',
-               'MESSAGE'
-            ])->default('MESSAGE');
-
-            $table->enum('card_type',[
-                'QUESTION',
-                'TRICK',
-            ])->default('QUESTION');
-
-
+            $table->string('state')->nullable();
             $table->integer('hot_level')->default(0);
-
+            $table->datetime('last_activity_at')->nullable();
+            $table->uuid('last_activity_by')->nullable();
+            $table->datetime('started_at')->nullable();
+            $table->datetime('finished_at')->nullable();
+            $table->string('invitation_code');
             $table->uuid('created_by')->nullable();
             $table->uuid('updated_by')->nullable();
-            $table->boolean('active')->default(true);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -49,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cards');
+        Schema::dropIfExists('rooms');
     }
 };

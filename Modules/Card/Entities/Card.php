@@ -15,6 +15,7 @@ use Modules\Employee\Entities\Employee;
 class Card extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
+   
     use Userstamps {
         getUserClass as _getUserClass;
     }

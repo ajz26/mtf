@@ -2,5 +2,6 @@
     "Employee": true,
     "User": true,
     "Auth": true,
-    "Card": true
+    "Card": true,
+    "Room": true
 }

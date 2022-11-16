@@ -35,7 +35,6 @@ class RegisteredEmployeeController extends Controller
      * Handle an incoming registration request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -58,8 +57,9 @@ class RegisteredEmployeeController extends Controller
 
         event(new Registered($user));
 
-        
-
-        return response()->noContent();
+        return response()->json([
+            'token' => $user->createToken($request->userAgent() ?? 'auth')->plainTextToken,
+            'message' => __("authenticated successfully")
+        ]);
     }
 }

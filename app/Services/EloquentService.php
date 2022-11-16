@@ -104,7 +104,7 @@ class EloquentService
      * @return bool
      */
     public function update(string $modelId, array $payload): bool {
-        return $this->model->find($modelId)->update($payload)->fresh();
+        return $this->model->find($modelId)->update($payload);
     }
 
     /**

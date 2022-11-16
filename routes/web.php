@@ -1,5 +1,8 @@
 <?php
 
+use Spatie\Crypto\Rsa\KeyPair;
+use Spatie\Crypto\Rsa\PublicKey;
+use Spatie\Crypto\Rsa\PrivateKey;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +18,33 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
+});
+
+
+
+
+Route::get('test',function(){
+
+    [$privateKey, $publicKey] = (new KeyPair('OPENSSL_ALGO_SHA256'))->generate();
+
+
+    $privateKey = PrivateKey::fromString($privateKey);
+    $publicKey  = PublicKey::fromString($publicKey);
+
+    
+    $message = 'cacerola la ola';
+
+    dump($message);
+
+
+    $hashed = $privateKey->encrypt($message);
+
+    dump($hashed);
+
+    $decrypted =  $publicKey->decrypt($hashed);
+
+
+    dump($decrypted);
+
+
 });
